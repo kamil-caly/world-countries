@@ -1,0 +1,2 @@
+1) Poprawe tworzenie mapy z wykorzystaniem pliku geo.json. ✔
+2) Kolorowanie wybranych krajów.
