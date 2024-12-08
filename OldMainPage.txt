@@ -1,0 +1,117 @@
+import React, { useState, useRef } from 'react';
+import { MapContainer, Marker, Popup, TileLayer, GeoJSON, useMapEvent, CircleMarker, Tooltip } from 'react-leaflet';
+import countries from '../data/countries.geo.json';
+import SetMapBounds from '../components/SetMapBounds.tsx';
+
+const ZoomListener: React.FC = () => {
+    useMapEvent('zoomend', (e) => {
+        const map = e.target;
+        //console.log('Current Zoom Level:', map.getZoom());
+        if (map.getZoom() === 4) {
+            //map.setZoom(2);
+            //map.setView([1, 1], 2)
+        }
+    });
+
+    return null;
+};
+
+const MainPage: React.FC = () => {
+
+    const geoJsonRef = useRef<L.GeoJSON | null>(null);
+    const [countryCentroids, setCountryCentroids] = useState<{ name: string; lat: number; lng: number }[]>([]);
+
+    const getGeoJsonStyle = (feature: any) => {
+        return {
+            color: 'blue',
+            weight: 0.5,
+            fillColor: feature.properties.name_pl === 'Polska' ? 'green' : 'blue',
+        };
+    };
+
+    const getCountryColor = (countryName: string): string => {
+        //debugger;
+        let countryColor = '';
+        if (geoJsonRef.current) {
+            geoJsonRef.current.eachLayer((layer: any) => {
+                const feature = layer.feature;
+                if (feature.properties.name_pl === countryName) {
+                    //debugger;
+                    countryColor = layer.options.fillColor;
+                }
+            });
+        }
+
+        return countryColor;
+    }
+
+    const handleButtonClick = () => {
+        if (geoJsonRef.current) {
+            geoJsonRef.current.setStyle((feature: any) => ({
+                color: 'blue',
+                weight: 0.5,
+                fillColor: feature.properties.name_pl === 'Niemcy' && getCountryColor('Niemcy') === 'blue' ? 'green' : 'blue',
+            }));
+        }
+        setCountryCentroids(calculateCentroidsLeaflet());
+    }
+
+    const calculateCentroidsLeaflet = () => {
+        const centroids: { name: string; lat: number; lng: number }[] = [];
+        geoJsonRef.current?.eachLayer((layer: any) => {
+            if (layer.feature && ((layer.feature.properties.type === 'Sovereign country'
+                || layer.feature.properties.type === 'Country'
+                || layer.feature.properties.type === 'Sovereignty')
+                && layer.feature.properties.sovereignt.toLowerCase().includes(layer.feature.properties.name_en.toLowerCase())
+                && layer.feature.properties.fclass_iso !== 'Unrecognized')
+                || layer.feature.properties.name_pl === 'Norwegia') {
+                const center = layer.getBounds().getCenter();
+                centroids.push({
+                    name: layer.feature.properties.name_pl,
+                    lat: center.lat,
+                    lng: center.lng,
+                });
+            }
+        });
+
+        centroids.forEach(c => console.log(c.name))
+        return centroids;
+    };
+
+    return (
+        <>
+            <MapContainer
+                className='mapContainer'
+                center={[0, 0]}
+                zoom={1} // only initial value
+                minZoom={1}
+                maxZoom={6}
+                scrollWheelZoom={true}>
+                <GeoJSON ref={geoJsonRef} data={countries} style={getGeoJsonStyle} />
+                {countryCentroids.map((centroid, idx) => (
+                    <CircleMarker
+                        key={idx}
+                        center={[centroid.lat, centroid.lng]} // Pozycja markera
+                        radius={3} // Rozmiar kropki
+                        color="black" // Kolor obrysu
+                        fillColor="black" // Kolor wypełnienia
+                        fillOpacity={1}
+                    >
+                        <Tooltip
+                            direction="center"
+                            permanent // Wyświetl na stałe
+                            className="custom-tooltip"
+                        >
+                            {centroid.name}
+                        </Tooltip>
+                    </CircleMarker>
+                ))}
+                <SetMapBounds geoJsonData={countries} />
+                <ZoomListener />
+            </MapContainer>
+            <button style={{ height: '20px' }} onClick={handleButtonClick}>click</button>
+        </>
+    );
+}
+
+export default MainPage;
