@@ -19,7 +19,24 @@ const GuessingPanel: React.FC = () => {
                     </div>
                 </button>
                 :
-                <div></div>
+                <div className='guessControl'>
+                    <div className='guessControlFirst'>
+                        <div className='timer'>12:00</div>
+                        <button className='giveUpBtn'>Poddajesz się?</button>
+                    </div>
+                    <div className='guessControlSecond'>
+                        <img className='pauseImg' src={require('../assets/pause_circle.svg').default} alt='pauseCircle' />
+                        <img className='clockImg' src={require('../assets/clock.svg').default} alt='clockCircle' />
+                        <img className='questionImg' src={require('../assets/question_circle.svg').default} alt='questionCircle' />
+                    </div>
+                    <div className='guessControlThird'>
+                        <div>
+                            <div className='countryLabel'>Wpisz kraj tutaj</div>
+                            <input className='countryInput' type="text" />
+                        </div>
+                        <div>0 / 196 odgadnięto</div>
+                    </div>
+                </div>
             }
         </div>
     );

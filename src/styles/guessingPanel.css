@@ -1,6 +1,5 @@
 .guessingPanelDiv {
     margin-top: 20px;
-    margin-left: 100px;
 }
 
 .startGameBtn {
@@ -12,6 +11,7 @@
     width: 180px;
     border-radius: 4px;
     cursor: pointer;
+    margin-left: 100px;
 }
 
 .startGameBtn:hover {
@@ -34,4 +34,75 @@
     height: 45px;
     margin-left: -9px;
     margin-top: 2px;
+}
+
+.guessControl {
+    display: flex;
+    height: 90px;;
+}
+
+.guessControlFirst {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.timer {
+    color: #28a745;
+    font-size: 40px;
+}
+
+.giveUpBtn {
+    border: none;
+    cursor: pointer;
+    background-color: #e02222;
+    color: #fff;
+    border-radius: 4px;
+    font-size: 16px;
+    padding: 7px;
+}
+
+.giveUpBtn:hover {
+    background-color: #c82333;
+    transition: background-color 150ms linear;
+}
+
+.guessControlSecond {
+    margin-left: 8px;
+    margin-right: 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.pauseImg, .clockImg, .questionImg {
+    height: 25px;
+    width: 25px;
+    cursor: pointer;
+}
+
+.guessControlThird {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.countryLabel {
+    font-weight: bold;
+    font-size: 17px;
+}
+
+.countryInput {
+    border: 1px solid #ccc; 
+    border-radius: 4px;
+    font-size: 18px;
+    padding: 8px;
+    width: 350px;
+}
+
+.countryInput:focus {
+    border-color: rgb(100, 190, 255); 
+    outline: none;
+    box-shadow: 0 0 2px 3px rgba(100, 190, 255, 0.5); 
 }

@@ -4,3 +4,4 @@
 4) Rozpoczęcie docelowej aplikacji -> tabelka na nazwy państw. ✔
 5) Przycisk przywracania mapy do domyślnej skali. ✔
 6) Przycisk zacznij quiz. ✔
+7) Panel do zgadywania krajów (stylizacja). ✔
