@@ -5,6 +5,7 @@ import SetMapBounds from '../components/SetMapBounds.tsx';
 import CountryTables from '../components/CountryTables.tsx';
 import { TablesContent } from '../types/types.ts';
 import possibleCountryNames from '../data/PossibleCountryNames.ts';
+import GuessingPanel from '../components/GuessingPanel.tsx';
 
 const initMapZoom: number = 2;
 
@@ -119,6 +120,7 @@ const MainPage: React.FC = () => {
 
     return (
         <>
+            <GuessingPanel />
             <MapContainer
                 className='mapContainer'
                 ref={mapRef}

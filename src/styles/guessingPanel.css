@@ -1,0 +1,37 @@
+.guessingPanelDiv {
+    margin-top: 20px;
+    margin-left: 100px;
+}
+
+.startGameBtn {
+    border: none;
+    background-color: #28a745;
+    color: #fff;
+    font-size: 18px;
+    font-weight: bold;
+    width: 180px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.startGameBtn:hover {
+    background-color: #218838;
+    transition: background-color 150ms linear;
+}
+
+.startGameBtnDiv {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.startGameBtnDiv > div {
+    margin-left: 14px;
+}
+
+.playImg {
+    width: 45px;
+    height: 45px;
+    margin-left: -9px;
+    margin-top: 2px;
+}
