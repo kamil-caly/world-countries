@@ -1,0 +1,40 @@
+
+.countryTablesDiv {
+    width: 1000px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    display: flex;
+    justify-content: space-between;
+}
+
+table > tr > th {
+    background-color: #3366cc;
+    color: #fff;
+    padding: 8px;
+    font-weight: 400;
+    font-size: 18px;
+    width: 170px;
+}
+
+table > tr > td {
+    padding: 8px;
+    display: flex;
+    justify-content: center;
+    border: 1px solid #ccc;
+    border-width: 0px 1px 1px 1px;
+    width: 170px;
+    font-size: 17px;
+}
+
+table > tr > td > div {
+    text-align: center;
+}
+
+table {
+    border-collapse: collapse;
+    height: fit-content;
+}
+
+.southAmericaTable {
+    margin-bottom: 20px;
+}
