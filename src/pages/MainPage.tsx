@@ -1,14 +1,17 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { MapContainer, Marker, Popup, TileLayer, GeoJSON, useMapEvent, CircleMarker, Tooltip } from 'react-leaflet';
+import { MapContainer, Marker, Popup, TileLayer, GeoJSON, useMapEvent, CircleMarker, Tooltip, useMap } from 'react-leaflet';
 import countries from '../data/countries.geo.json';
 import SetMapBounds from '../components/SetMapBounds.tsx';
 import CountryTables from '../components/CountryTables.tsx';
 import { TablesContent } from '../types/types.ts';
 import possibleCountryNames from '../data/PossibleCountryNames.ts';
 
+const initMapZoom: number = 2;
+
 const MainPage: React.FC = () => {
 
     const geoJsonRef = useRef<L.GeoJSON | null>(null);
+    const mapRef = useRef<any>(null);
     const [tablesContent, setTablesContent] = useState<TablesContent>({
         europa: [],
         azja: [],
@@ -19,7 +22,7 @@ const MainPage: React.FC = () => {
     });
 
     useEffect(() => {
-
+        console.log('mapRef: ', mapRef);
     }, [tablesContent])
 
     const onEachFeature = (_, layer) => {
@@ -109,13 +112,19 @@ const MainPage: React.FC = () => {
         }
     }
 
+    const homeBtnClick = () => {
+        if (mapRef.current)
+            mapRef.current.setView([0, 0], initMapZoom);
+    }
+
     return (
         <>
             <MapContainer
                 className='mapContainer'
+                ref={mapRef}
                 center={[0, 0]}
-                zoom={2} // only initial value
-                minZoom={2}
+                zoom={initMapZoom} // only initial value
+                minZoom={initMapZoom}
                 maxZoom={6}
                 scrollWheelZoom={true}>
                 <GeoJSON
@@ -131,6 +140,11 @@ const MainPage: React.FC = () => {
                 />
                 <SetMapBounds geoJsonData={countries} />
             </MapContainer>
+            <div className='mapOptionsDiv'>
+                <button className='homeBtn' onClick={homeBtnClick}>
+                    <img src={require('../assets/home.svg').default} alt='home' />
+                </button>
+            </div>
             <CountryTables tablesContent={tablesContent} />
         </>
     );

@@ -9,3 +9,25 @@
 .leaflet-zoom-animated {
     background-color: rgb(100, 190, 255);
 }
+
+.mapOptionsDiv {
+    margin-top: 5px;
+}
+
+.homeBtn {
+    border: none;
+    cursor: pointer;
+    background-color: rgb(100, 190, 255);
+    border-radius: 20%;
+    height: 40px;
+    width: 40px;
+    border: 1px solid #ccc;
+}
+
+.homeBtn:hover {
+    background-color: #ffff80;
+}
+
+.homeBtn > img {
+    padding-top: 4px;
+}

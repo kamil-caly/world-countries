@@ -1,4 +1,5 @@
 1) Poprawe tworzenie mapy z wykorzystaniem pliku geo.json. ✔
 2) Kolorowanie wybranych krajów. ✔
 3) Sprawdzenie czy można rysować kropki w śroku państw (można ale niektóre wychodzą poza państwami -> do poprawy). ✔
-4) Rozpoczęcie docelowej aplikacji -> tabelka na nazwy państw.
+4) Rozpoczęcie docelowej aplikacji -> tabelka na nazwy państw. ✔
+5) Przycisk przywracania mapy do domyślnej skali. ✔
