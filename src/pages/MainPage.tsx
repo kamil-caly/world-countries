@@ -10,16 +10,16 @@ const MainPage: React.FC = () => {
 
     const geoJsonRef = useRef<L.GeoJSON | null>(null);
     const [tablesContent, setTablesContent] = useState<TablesContent>({
+        europa: [],
+        azja: [],
         afryka: [],
         ameryka_polnocna: [],
         ameryka_poludniowa: [],
-        azja: [],
-        europa: [],
         oceania: []
     });
 
     useEffect(() => {
-        console.log('tablesContent: ', tablesContent);
+
     }, [tablesContent])
 
     const onEachFeature = (_, layer) => {
@@ -27,67 +27,79 @@ const MainPage: React.FC = () => {
             switch (layer.feature.properties.continent) {
                 case 'North America':
                     setTablesContent(prevState => {
+                        const updatedArray = [
+                            ...prevState.ameryka_polnocna,
+                            { name: layer.feature.properties.name_pl, guessed: false }
+                        ].sort((a, b) => a.name.localeCompare(b.name));
+
                         return {
                             ...prevState,
-                            ameryka_polnocna: [
-                                ...prevState.ameryka_polnocna,
-                                { name: layer.feature.properties.name_pl, guessed: false }
-                            ]
+                            ameryka_polnocna: updatedArray
                         };
                     });
                     break;
                 case 'Asia':
                     setTablesContent(prevState => {
+                        const updatedArray = [
+                            ...prevState.azja,
+                            { name: layer.feature.properties.name_pl, guessed: false }
+                        ].sort((a, b) => a.name.localeCompare(b.name));
+
                         return {
                             ...prevState,
-                            azja: [
-                                ...prevState.azja,
-                                { name: layer.feature.properties.name_pl, guessed: false }
-                            ]
+                            azja: updatedArray
                         };
                     });
                     break;
                 case 'South America':
                     setTablesContent(prevState => {
+                        const updatedArray = [
+                            ...prevState.ameryka_poludniowa,
+                            { name: layer.feature.properties.name_pl, guessed: false }
+                        ].sort((a, b) => a.name.localeCompare(b.name));
+
                         return {
                             ...prevState,
-                            ameryka_poludniowa: [
-                                ...prevState.ameryka_poludniowa,
-                                { name: layer.feature.properties.name_pl, guessed: false }
-                            ]
+                            ameryka_poludniowa: updatedArray
                         };
                     });
                     break;
                 case 'Africa':
                     setTablesContent(prevState => {
+                        const updatedArray = [
+                            ...prevState.afryka,
+                            { name: layer.feature.properties.name_pl, guessed: false }
+                        ].sort((a, b) => a.name.localeCompare(b.name));
+
                         return {
                             ...prevState,
-                            afryka: [
-                                ...prevState.afryka,
-                                { name: layer.feature.properties.name_pl, guessed: false }
-                            ]
+                            afryka: updatedArray
                         };
                     });
                     break;
                 case 'Europe':
                     setTablesContent(prevState => {
+                        const updatedArray = [
+                            ...prevState.europa,
+                            { name: layer.feature.properties.name_pl, guessed: false }
+                        ].sort((a, b) => a.name.localeCompare(b.name));
+
                         return {
                             ...prevState,
-                            europa: [
-                                ...prevState.europa,
-                                { name: layer.feature.properties.name_pl, guessed: false }
-                            ]
+                            europa: updatedArray
                         };
                     });
                     break;
                 case 'Oceania':
                     setTablesContent(prevState => {
+                        const updatedArray = [
+                            ...prevState.oceania,
+                            { name: layer.feature.properties.name_pl, guessed: false }
+                        ].sort((a, b) => a.name.localeCompare(b.name));
+
                         return {
                             ...prevState,
-                            oceania: [
-                                ...prevState.oceania,
-                                { name: layer.feature.properties.name_pl, guessed: false }
-                            ]
+                            oceania: updatedArray
                         };
                     });
                     break;

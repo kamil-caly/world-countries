@@ -1,4 +1,4 @@
-export interface TablesContent {
+export type TablesContent = {
     europa: CellTableContent[],
     azja: CellTableContent[],
     afryka: CellTableContent[],

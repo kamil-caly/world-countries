@@ -22,4 +22,32 @@ body {
 .countryTablesDiv {
     width: 1000px;
     padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+table > tr > th {
+    font-weight: 400;
+}
+
+table > tr > th {
+    background-color: #3366cc;
+    color: #fff;
+    padding: 8px;
+}
+
+table > tr > td {
+    padding: 8px;
+    display: flex;
+    justify-content: center;
+}
+
+table > tr > td {
+    border: 1px solid #ccc;
+    border-collapse: collapse;
+}
+
+table {
+    border-collapse: collapse;
+    border: 1px solid #ccc;
+    border-spacing: 0;
 }
