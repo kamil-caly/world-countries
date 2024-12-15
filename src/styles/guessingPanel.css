@@ -106,3 +106,60 @@
     outline: none;
     box-shadow: 0 0 2px 3px rgba(100, 190, 255, 0.5); 
 }
+
+.gameOverPanel {
+    display: flex;
+    flex-direction: column;
+    height: 170px;
+    justify-content: space-between;
+}
+
+.pointsPanel {
+    background-color: #f2eae1;
+    padding: 14px;
+    font-size: 18px;
+    width: fit-content;
+}
+
+.points {
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.allScore {
+    display: flex;
+}
+
+.yourScoreIs {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+}
+
+.finalScore {
+    margin-left: 6px;
+    font-size: 26px;
+    margin-bottom: -2px;
+}
+
+.repeatBtn {
+    display: flex;
+    justify-content: center;
+    border: none;
+    background-color: #28a745;
+    color: #000;
+    font-size: 18px;
+    width: 250px;
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 10px;
+}
+
+.repeatBtn:hover {
+    background-color: #218838;
+    transition: background-color 150ms linear;
+}
+
+.repeatImg {
+    margin: 2px 6px 0 0;
+}

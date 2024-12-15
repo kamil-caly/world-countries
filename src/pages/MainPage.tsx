@@ -21,6 +21,7 @@ const MainPage: React.FC = () => {
         ameryka_poludniowa: [],
         oceania: []
     });
+    const [isGameOver, setIsGameOver] = useState<boolean>(false);
 
     useEffect(() => {
         //console.log('tablesContent', tablesContent);
@@ -145,13 +146,34 @@ const MainPage: React.FC = () => {
             color: '#363d44',
             weight: 0.5,
             fillOpacity: 1,
-            fillColor: isGuessed ? '#6f6' : '#ffff80'
+            fillColor: isGuessed ? '#6f6' : isGameOver ? '#f66' : '#ffff80'
         };
+    }
+
+    const resetTablesContent = () => {
+        const newContent = Object.fromEntries(
+            Object.entries(tablesContent as TablesContent).map(([key, value]) => [
+                key,
+                value.map(c => {
+                    return { ...c, guessed: false }
+                })
+            ])
+        ) as TablesContent;
+
+        setTablesContent(newContent);
+    }
+
+    const setGameOver = (isGameOver: boolean) => {
+        setIsGameOver(isGameOver);
     }
 
     return (
         <>
-            <GuessingPanel updateTablesContent={updateTablesContent} />
+            <GuessingPanel
+                updateTablesContent={updateTablesContent}
+                resetTablesContent={resetTablesContent}
+                setGameOver={setGameOver}
+            />
             <MapContainer
                 className='mapContainer'
                 ref={mapRef}
@@ -173,7 +195,7 @@ const MainPage: React.FC = () => {
                     <img src={require('../assets/home.svg').default} alt='home' />
                 </button>
             </div>
-            <CountryTables tablesContent={tablesContent} />
+            <CountryTables tablesContent={tablesContent} isGameOver={isGameOver} />
         </>
     );
 }

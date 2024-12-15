@@ -4,6 +4,7 @@ import { CellTableContent } from '../types/types.ts';
 export type SingleTableProps = {
     continent: string;
     cellContent: CellTableContent[];
+    isGameOver: boolean;
     cssClass?: string
 }
 
@@ -17,7 +18,12 @@ const SingleTable: React.FC = (props: SingleTableProps) => {
             {props.cellContent.map(e =>
                 <tr>
                     <td>
-                        <div style={{ display: e.guessed ? 'flex' : 'none' }}>{e.name}</div>
+                        <div style={{
+                            display: e.guessed || props.isGameOver ? 'flex' : 'none',
+                            color: props.isGameOver && !e.guessed ? 'red' : 'green'
+                        }}>
+                            {e.name}
+                        </div>
                     </td>
                 </tr>
             )}
