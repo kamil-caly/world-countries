@@ -10,7 +10,7 @@ type CountryTablesProps = {
 const CountryTables: React.FC = (props: CountryTablesProps) => {
 
     useEffect(() => {
-        console.log('child tablesContent: ', props.tablesContent);
+        //console.log('child tablesContent: ', props.tablesContent);
     }, [props]);
 
     return (

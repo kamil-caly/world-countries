@@ -1,12 +1,28 @@
 import { useEffect, useState } from 'react';
 import React from 'react';
+import { TablesContent } from '../types/types';
 
-const GuessingPanel: React.FC = () => {
+type CountryTablesProps = {
+    tablesContent: TablesContent;
+    updateTablesContent: (country: string) => boolean;
+}
+
+const GuessingPanel: React.FC = (props: CountryTablesProps) => {
     const [isGameStarted, setIsGameStarted] = useState<boolean>(false);
+    const [inputValue, setInputValue] = useState<string>('');
 
     useEffect(() => {
 
     }, []);
+
+    const countryInputChange = (value: string) => {
+        const updated: boolean = props.updateTablesContent(value);
+        if (updated) {
+            setInputValue('');
+        } else {
+            setInputValue(value);
+        }
+    }
 
     return (
         <div className='guessingPanelDiv'>
@@ -32,7 +48,7 @@ const GuessingPanel: React.FC = () => {
                     <div className='guessControlThird'>
                         <div>
                             <div className='countryLabel'>Wpisz kraj tutaj</div>
-                            <input className='countryInput' type="text" />
+                            <input className='countryInput' type="text" value={inputValue} onChange={(e) => countryInputChange(e.target.value)} />
                         </div>
                         <div>0 / 196 odgadnięto</div>
                     </div>

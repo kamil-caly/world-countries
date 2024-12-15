@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { CellTableContent } from '../types/types.ts';
 
 export type SingleTableProps = {
@@ -17,7 +17,7 @@ const SingleTable: React.FC = (props: SingleTableProps) => {
             {props.cellContent.map(e =>
                 <tr>
                     <td>
-                        <div>{e.name}</div>
+                        <div style={{ display: e.guessed ? 'flex' : 'none' }}>{e.name}</div>
                     </td>
                 </tr>
             )}

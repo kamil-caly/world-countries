@@ -24,10 +24,12 @@ table > tr > td {
     border-width: 0px 1px 1px 1px;
     width: 170px;
     font-size: 17px;
+    min-height: 20px;
 }
 
 table > tr > td > div {
     text-align: center;
+    color: green;
 }
 
 table {

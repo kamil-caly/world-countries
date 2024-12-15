@@ -3,7 +3,7 @@ import { MapContainer, Marker, Popup, TileLayer, GeoJSON, useMapEvent, CircleMar
 import countries from '../data/countries.geo.json';
 import SetMapBounds from '../components/SetMapBounds.tsx';
 import CountryTables from '../components/CountryTables.tsx';
-import { TablesContent } from '../types/types.ts';
+import { CellTableContent, TablesContent } from '../types/types.ts';
 import possibleCountryNames from '../data/PossibleCountryNames.ts';
 import GuessingPanel from '../components/GuessingPanel.tsx';
 
@@ -23,7 +23,7 @@ const MainPage: React.FC = () => {
     });
 
     useEffect(() => {
-        console.log('mapRef: ', mapRef);
+        //console.log('tablesContent', tablesContent);
     }, [tablesContent])
 
     const onEachFeature = (_, layer) => {
@@ -118,9 +118,40 @@ const MainPage: React.FC = () => {
             mapRef.current.setView([0, 0], initMapZoom);
     }
 
+    const updateTablesContent = (country: string): boolean => {
+        let hit = false;
+        const newContent = Object.fromEntries(
+            Object.entries(tablesContent as TablesContent).map(([key, value]) => [
+                key,
+                value.map(c => {
+                    if (c.name.toLocaleLowerCase() === country.toLocaleLowerCase() && !c.guessed) {
+                        hit = true;
+                        return { ...c, guessed: true };
+                    }
+                    return c;
+                })
+            ])
+        ) as TablesContent;
+
+        setTablesContent(newContent);
+        return hit;
+    }
+
+    const getGeoJsonStyle = (feature: any) => {
+        const isGuessed: boolean = Object.values(tablesContent as TablesContent).some(v =>
+            v.some(c => c.name === feature.properties.name_pl && c.guessed)
+        );
+        return {
+            color: '#363d44',
+            weight: 0.5,
+            fillOpacity: 1,
+            fillColor: isGuessed ? '#6f6' : '#ffff80'
+        };
+    }
+
     return (
         <>
-            <GuessingPanel />
+            <GuessingPanel updateTablesContent={updateTablesContent} />
             <MapContainer
                 className='mapContainer'
                 ref={mapRef}
@@ -133,12 +164,7 @@ const MainPage: React.FC = () => {
                     ref={geoJsonRef}
                     data={countries}
                     onEachFeature={onEachFeature}
-                    style={{
-                        weight: '0.5',
-                        fillColor: '#ffff80',
-                        fillOpacity: '1',
-                        color: '#363d44'
-                    }}
+                    style={getGeoJsonStyle}
                 />
                 <SetMapBounds geoJsonData={countries} />
             </MapContainer>
