@@ -3,19 +3,20 @@ import React from 'react';
 import { TablesContent } from '../types/types';
 
 type CountryTablesProps = {
-    tablesContent: TablesContent;
     updateTablesContent: (country: string) => boolean;
     resetTablesContent: () => void;
     setGameOver: (value: boolean) => void;
 }
 
-const QUIZ_TIME: string = '02:00';
+const QUIZ_TIME: string = '00:10';
 
 const GuessingPanel: React.FC = (props: CountryTablesProps) => {
     const [isGameStarted, setIsGameStarted] = useState<boolean>(false);
     const [inputValue, setInputValue] = useState<string>('');
     const [timeValue, setTimeValue] = useState<string>(QUIZ_TIME);
     const intervalId = useRef<number | null>(null);
+    const [guessedCountriesStr, setGuessedCountriesStr] = useState<string>('0 / 196 odgadnięto');
+    const [finalScoreStr, setFinalScoreStr] = useState<string>('');
 
     useEffect(() => {
         if (isGameStarted) {
@@ -25,16 +26,23 @@ const GuessingPanel: React.FC = (props: CountryTablesProps) => {
 
     }, [isGameStarted]);
 
+    const setFinalScoreStrState = () => {
+        //25/196 = 13%
+        debugger;
+        const firstPart = document.getElementsByClassName('guessedCountriesStr')[0].innerHTML.split('o')[0].trim();
+        const percentage = Math.round(Number(firstPart.split('/')[0]) / Number(firstPart.split('/')[1]) * 100);
+        setFinalScoreStr(`${firstPart} = ${percentage}%`);
+    }
+
     const updateTime = (): void => {
         setTimeValue(prevTime => {
-            console.log('prevTime: ', prevTime);
             let minutes: number = Number(prevTime.split(':')[0]);
             let seconds: number = Number(prevTime.split(':')[1]);
 
             if (minutes === 0 && seconds === 1) {
-                debugger;
                 clearInterval(intervalId.current);
                 props.setGameOver(true);
+                setFinalScoreStrState();
                 return '00:00';
             }
 
@@ -57,6 +65,7 @@ const GuessingPanel: React.FC = (props: CountryTablesProps) => {
         const updated: boolean = props.updateTablesContent(value);
         if (updated) {
             setInputValue('');
+            setGuessedCountriesStr(prev => { return `${Number(prev.split('/')[0].trim()) + 1} / 196 odgadnięto` });
         } else {
             setInputValue(value);
         }
@@ -71,7 +80,7 @@ const GuessingPanel: React.FC = (props: CountryTablesProps) => {
                         <div className='points'>Punktacja</div>
                         <div className='allScore'>
                             <div className='yourScoreIs'>Twój wynik to</div>
-                            <div className='finalScore'>25/196 = 13%</div>
+                            <div className='finalScore'>{finalScoreStr}</div>
                         </div>
                     </div>
                     <div>Przewiń w dół, aby zobaczyć odpowiedzi...</div>
@@ -109,7 +118,7 @@ const GuessingPanel: React.FC = (props: CountryTablesProps) => {
                                 <div className='countryLabel'>Wpisz kraj tutaj</div>
                                 <input className='countryInput' type="text" value={inputValue} onChange={(e) => countryInputChange(e.target.value)} />
                             </div>
-                            <div>0 / 196 odgadnięto</div>
+                            <div className='guessedCountriesStr'>{guessedCountriesStr}</div>
                         </div>
                     </div>
             }
