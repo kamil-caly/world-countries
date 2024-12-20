@@ -8,14 +8,15 @@ type CountryTablesProps = {
     setGameOver: (value: boolean) => void;
 }
 
-const QUIZ_TIME: string = '00:10';
+const QUIZ_TIME: string = '10:10';
+const GUESSED_COUNTRIES_STR: string = '0 / 196 odgadnięto';
 
 const GuessingPanel: React.FC = (props: CountryTablesProps) => {
     const [isGameStarted, setIsGameStarted] = useState<boolean>(false);
     const [inputValue, setInputValue] = useState<string>('');
     const [timeValue, setTimeValue] = useState<string>(QUIZ_TIME);
     const intervalId = useRef<number | null>(null);
-    const [guessedCountriesStr, setGuessedCountriesStr] = useState<string>('0 / 196 odgadnięto');
+    const [guessedCountriesStr, setGuessedCountriesStr] = useState<string>(GUESSED_COUNTRIES_STR);
     const [finalScoreStr, setFinalScoreStr] = useState<string>('');
 
     useEffect(() => {
@@ -71,6 +72,22 @@ const GuessingPanel: React.FC = (props: CountryTablesProps) => {
         }
     }
 
+    const repeatQuizClick = () => {
+        setTimeValue(QUIZ_TIME);
+        setIsGameStarted(false);
+        props.resetTablesContent();
+        props.setGameOver(false);
+        setInputValue('');
+        setGuessedCountriesStr(GUESSED_COUNTRIES_STR)
+    }
+
+    const giveUpClick = () => {
+        clearInterval(intervalId.current);
+        props.setGameOver(true);
+        setFinalScoreStrState();
+        setTimeValue('00:00');
+    }
+
     return (
         <div className='guessingPanelDiv'>
             {timeValue === '00:00'
@@ -84,12 +101,7 @@ const GuessingPanel: React.FC = (props: CountryTablesProps) => {
                         </div>
                     </div>
                     <div>Przewiń w dół, aby zobaczyć odpowiedzi...</div>
-                    <button className='repeatBtn' onClick={() => {
-                        setTimeValue(QUIZ_TIME);
-                        setIsGameStarted(false);
-                        props.resetTablesContent();
-                        props.setGameOver(false);
-                    }}>
+                    <button className='repeatBtn' onClick={repeatQuizClick}>
                         <img className='repeatImg' src={require('../assets/arrow-repeat.svg').default} alt='arrowRepeat' />
                         <div>Rozwiąż quiz ponownie</div>
                     </button>
@@ -106,7 +118,7 @@ const GuessingPanel: React.FC = (props: CountryTablesProps) => {
                     <div className='guessControl'>
                         <div className='guessControlFirst'>
                             <div className='timer'>{timeValue}</div>
-                            <button className='giveUpBtn'>Poddajesz się?</button>
+                            <button className='giveUpBtn' onClick={giveUpClick}>Poddajesz się?</button>
                         </div>
                         <div className='guessControlSecond'>
                             <img className='pauseImg' src={require('../assets/pause_circle.svg').default} alt='pauseCircle' />

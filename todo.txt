@@ -8,3 +8,4 @@
 8) Pojawianie się krajów w tabelce po zgadnięciu + kolorowanie na mapie (zielony). ✔
 9) Upływ czasu + info o przegranej gdy koniec czasu + niezgadnięte kraje na czerwono w tabelce i na mapie. ✔
 10) Uzupełnianie liczby poprawnie zgadniętych krajów + prawidłowa punktacja. ✔
+11) Obsługa przycisku 'Poddajesz się'. ✔
