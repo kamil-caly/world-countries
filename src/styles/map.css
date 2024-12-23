@@ -13,6 +13,13 @@
     margin-top: 5px;
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    font-size: 20px;
+}
+
+.mapOptionsDiv > div {
+    display: flex;
+    align-items: center;
 }
 
 .homeBtn {
@@ -32,4 +39,16 @@
 
 .homeBtn > img {
     padding-top: 4px;
+}
+
+.missedCountriesDiv {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    color: #3366cc;
+    font-weight: 600;
+}
+
+.missedCountriesDiv:hover {
+    text-decoration: underline #3366cc;
 }

@@ -12,3 +12,6 @@
 12) Obsługa pauzowania gry (możliwe 3 pauzy). ✔
 13) Możliwość rozwiązania quiz'u bez limitu czasowego (przycisk zegara). ✔
 14) Górny panel z opcjami przypięty na stałe do górnej krawędzi. ✔
+15) Pokazywanie nazwy kraju po najechaniu (gdy kraj zgadnięto oraz gdy koniec gry) ✔
+16) Pokazywanie niezgadniętych krajów poprzez pobrubienie granic i zmianę koloru. ✔
+17) Obsługa przycisku pomocy (question svg).

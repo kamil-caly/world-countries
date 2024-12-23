@@ -9,7 +9,7 @@ import GuessingPanel from '../components/GuessingPanel.tsx';
 import PausePanel from '../components/PausePanel.tsx';
 import { PauseContext, PauseContextType } from '../app_context/PauseContext.tsx';
 
-const initMapZoom: number = 2;
+const INIT_MAP_ZOOM: number = 2;
 
 const MainPage: React.FC = () => {
 
@@ -26,7 +26,8 @@ const MainPage: React.FC = () => {
     const [isGameOver, setIsGameOver] = useState<boolean>(false);
     const [isPageScrolled, setIsPageScrolled] = useState<boolean>(false);
     const [hoverCountry, seHoverCountry] = useState<string>('');
-    const { pauseState, pauseDispatch } = useContext(PauseContext) as { pauseState: PauseContextType, pauseDispatch: any };
+    const [showMissingCountries, setShowMissingCountries] = useState<boolean>(false);
+    const { pauseState, _ } = useContext(PauseContext) as { pauseState: PauseContextType, _: any };
 
     useEffect(() => {
         const handleScroll = () => {
@@ -143,7 +144,7 @@ const MainPage: React.FC = () => {
 
     const homeBtnClick = () => {
         if (mapRef.current)
-            mapRef.current.setView([0, 0], initMapZoom);
+            mapRef.current.setView([0, 0], INIT_MAP_ZOOM);
     }
 
     const updateTablesContent = (country: string): boolean => {
@@ -165,19 +166,33 @@ const MainPage: React.FC = () => {
         return hit;
     }
 
-    const isCountryGuessed = (name_pl: string): boolean => {
+    const countryExists = (name_pl: string, isGuessed: boolean): boolean => {
         return Object.values(tablesContent as TablesContent)
             .some(v =>
-                v.some(c => c.name === name_pl && c.guessed)
+                v.some(c => c.name === name_pl && (isGuessed ? c.guessed : true))
             );
     }
 
     const getGeoJsonStyle = (feature: any) => {
+        let fillColor = '#ffff80';
+        let weight = 0.5;
+        let color = '#363d44';
+
+        if (countryExists(feature.properties.name_pl, true))
+            fillColor = '#6f6';
+        else if (showMissingCountries && countryExists(feature.properties.name_pl, false)) {
+            fillColor = '#ffd400';
+            weight = 4;
+            color = '#ec9009';
+        }
+        else if (isGameOver && countryExists(feature.properties.name_pl, false))
+            fillColor = '#f66';
+
         return {
-            color: '#363d44',
-            weight: 0.5,
+            color: color,
+            weight: weight,
             fillOpacity: 1,
-            fillColor: isCountryGuessed(feature.properties.name_pl) ? '#6f6' : isGameOver ? '#f66' : '#ffff80'
+            fillColor: fillColor
         };
     }
 
@@ -214,8 +229,8 @@ const MainPage: React.FC = () => {
                     className='mapContainer'
                     ref={mapRef}
                     center={[0, 0]}
-                    zoom={initMapZoom} // only initial value
-                    minZoom={initMapZoom}
+                    zoom={INIT_MAP_ZOOM} // only initial value
+                    minZoom={INIT_MAP_ZOOM}
                     maxZoom={6}
                     scrollWheelZoom={true}
                 >
@@ -228,10 +243,13 @@ const MainPage: React.FC = () => {
                     <SetMapBounds geoJsonData={countries} />
                 </MapContainer>
                 <div className='mapOptionsDiv'>
-                    <button className='homeBtn' onClick={homeBtnClick}>
-                        <img src={require('../assets/home.svg').default} alt='home' />
-                    </button>
-                    <div>{isCountryGuessed(hoverCountry) || isGameOver ? hoverCountry : ''}</div>
+                    <div>
+                        <button className='homeBtn' onClick={homeBtnClick}>
+                            <img src={require('../assets/home.svg').default} alt='home' />
+                        </button>
+                        <div>{countryExists(hoverCountry, true) || isGameOver ? hoverCountry : ''}</div>
+                    </div>
+                    <div className='missedCountriesDiv' onClick={() => setShowMissingCountries(prev => !prev)}>{showMissingCountries ? 'Ukryj brakujące państwa' : 'Pokaż brakujące kraje'}</div>
                 </div>
                 <CountryTables tablesContent={tablesContent} isGameOver={isGameOver} />
             </div>
