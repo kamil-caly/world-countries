@@ -72,7 +72,6 @@ const GuessingPanel: React.FC = (props: CountryTablesProps) => {
 
             const finalMinutes = minutes < 10 ? `0${minutes}` : minutes;
             const finalSeconds = seconds < 10 ? `0${seconds}` : seconds;
-            console.log('Game time: ', `${finalMinutes}:${finalSeconds}`);
             return `${finalMinutes}:${finalSeconds}`;
         })
     }

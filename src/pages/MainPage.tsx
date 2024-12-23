@@ -25,6 +25,7 @@ const MainPage: React.FC = () => {
     });
     const [isGameOver, setIsGameOver] = useState<boolean>(false);
     const [isPageScrolled, setIsPageScrolled] = useState<boolean>(false);
+    const [hoverCountry, seHoverCountry] = useState<string>('');
     const { pauseState, pauseDispatch } = useContext(PauseContext) as { pauseState: PauseContextType, pauseDispatch: any };
 
     useEffect(() => {
@@ -43,7 +44,7 @@ const MainPage: React.FC = () => {
         };
     }, []);
 
-    const onEachFeature = (_, layer) => {
+    const onEachFeature = (feature, layer) => {
         if (layer.feature && possibleCountryNames.includes(layer.feature.properties.name_pl)) {
             switch (layer.feature.properties.continent) {
                 case 'North America':
@@ -128,6 +129,16 @@ const MainPage: React.FC = () => {
                     break;
             }
         }
+
+        layer.on({
+            mouseover: (_: L.LeafletMouseEvent) => {
+                const countryName = feature.properties.name_pl;
+                seHoverCountry(_ => countryName);
+            },
+            mouseout: () => {
+                seHoverCountry(_ => '');
+            }
+        });
     }
 
     const homeBtnClick = () => {
@@ -154,15 +165,19 @@ const MainPage: React.FC = () => {
         return hit;
     }
 
+    const isCountryGuessed = (name_pl: string): boolean => {
+        return Object.values(tablesContent as TablesContent)
+            .some(v =>
+                v.some(c => c.name === name_pl && c.guessed)
+            );
+    }
+
     const getGeoJsonStyle = (feature: any) => {
-        const isGuessed: boolean = Object.values(tablesContent as TablesContent).some(v =>
-            v.some(c => c.name === feature.properties.name_pl && c.guessed)
-        );
         return {
             color: '#363d44',
             weight: 0.5,
             fillOpacity: 1,
-            fillColor: isGuessed ? '#6f6' : isGameOver ? '#f66' : '#ffff80'
+            fillColor: isCountryGuessed(feature.properties.name_pl) ? '#6f6' : isGameOver ? '#f66' : '#ffff80'
         };
     }
 
@@ -202,7 +217,8 @@ const MainPage: React.FC = () => {
                     zoom={initMapZoom} // only initial value
                     minZoom={initMapZoom}
                     maxZoom={6}
-                    scrollWheelZoom={true}>
+                    scrollWheelZoom={true}
+                >
                     <GeoJSON
                         ref={geoJsonRef}
                         data={countries}
@@ -215,6 +231,7 @@ const MainPage: React.FC = () => {
                     <button className='homeBtn' onClick={homeBtnClick}>
                         <img src={require('../assets/home.svg').default} alt='home' />
                     </button>
+                    <div>{isCountryGuessed(hoverCountry) || isGameOver ? hoverCountry : ''}</div>
                 </div>
                 <CountryTables tablesContent={tablesContent} isGameOver={isGameOver} />
             </div>

@@ -11,6 +11,8 @@
 
 .mapOptionsDiv {
     margin-top: 5px;
+    display: flex;
+    align-items: center;
 }
 
 .homeBtn {
@@ -21,6 +23,7 @@
     height: 40px;
     width: 40px;
     border: 1px solid #ccc;
+    margin-right: 5px;
 }
 
 .homeBtn:hover {
