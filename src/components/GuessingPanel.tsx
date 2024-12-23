@@ -4,6 +4,7 @@ import { TablesContent } from '../types/types';
 import { Action, PauseContext, PauseContextType } from '../app_context/PauseContext.tsx';
 
 type CountryTablesProps = {
+    isPageScrolled: boolean;
     updateTablesContent: (country: string) => boolean;
     resetTablesContent: () => void;
     setGameOver: (value: boolean) => void;
@@ -115,7 +116,7 @@ const GuessingPanel: React.FC = (props: CountryTablesProps) => {
     }
 
     return (
-        <div className='guessingPanelDiv'>
+        <div className={`guessingPanelDiv ${props.isPageScrolled ? 'guessingPanelDivScrolled' : ''}`} style={{ display: pauseState.isPause ? 'none' : 'block' }}>
             {timeValue === '00:00'
                 ?
                 <div className='gameOverPanel'>

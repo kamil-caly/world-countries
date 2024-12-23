@@ -11,3 +11,4 @@
 11) Obsługa przycisku 'Poddajesz się'. ✔
 12) Obsługa pauzowania gry (możliwe 3 pauzy). ✔
 13) Możliwość rozwiązania quiz'u bez limitu czasowego (przycisk zegara). ✔
+14) Górny panel z opcjami przypięty na stałe do górnej krawędzi. ✔

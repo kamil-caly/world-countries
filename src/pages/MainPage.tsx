@@ -24,11 +24,24 @@ const MainPage: React.FC = () => {
         oceania: []
     });
     const [isGameOver, setIsGameOver] = useState<boolean>(false);
+    const [isPageScrolled, setIsPageScrolled] = useState<boolean>(false);
     const { pauseState, pauseDispatch } = useContext(PauseContext) as { pauseState: PauseContextType, pauseDispatch: any };
 
     useEffect(() => {
-        //console.log('tablesContent', tablesContent);
-    }, [tablesContent])
+        const handleScroll = () => {
+            if (window.scrollY >= 15) {
+                setIsPageScrolled(true);
+            } else {
+                setIsPageScrolled(false);
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
 
     const onEachFeature = (_, layer) => {
         if (layer.feature && possibleCountryNames.includes(layer.feature.properties.name_pl)) {
@@ -172,13 +185,16 @@ const MainPage: React.FC = () => {
 
     return (
         <>
-            <PausePanel />
-            <div style={{ display: pauseState.isPause ? 'none' : 'block' }}>
+            <div style={{ marginBottom: isGameOver ? '200px' : '120px' }}>
+                <PausePanel />
                 <GuessingPanel
+                    isPageScrolled={isPageScrolled}
                     updateTablesContent={updateTablesContent}
                     resetTablesContent={resetTablesContent}
                     setGameOver={setGameOver}
                 />
+            </div>
+            <div style={{ display: pauseState.isPause ? 'none' : 'block' }}>
                 <MapContainer
                     className='mapContainer'
                     ref={mapRef}
