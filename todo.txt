@@ -9,3 +9,4 @@
 9) Upływ czasu + info o przegranej gdy koniec czasu + niezgadnięte kraje na czerwono w tabelce i na mapie. ✔
 10) Uzupełnianie liczby poprawnie zgadniętych krajów + prawidłowa punktacja. ✔
 11) Obsługa przycisku 'Poddajesz się'. ✔
+12) Obsługa pauzowania gry (możliwe 3 pauzy). ✔

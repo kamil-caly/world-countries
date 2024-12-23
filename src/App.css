@@ -1,6 +1,7 @@
 @import './styles/map.css';
 @import './styles/table.css';
 @import './styles/guessingPanel.css';
+@import './styles/pausePanel.css';
 
 body {
     height: 100%;

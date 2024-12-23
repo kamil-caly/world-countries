@@ -1,0 +1,37 @@
+.pauseContainer {
+    margin-top: 20px;
+    background-color: #eeeeee;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    width: 1000px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    height: 106px;
+    justify-content: center;
+}
+
+.continueGameBtn {
+    border: none;
+    background-color: #28a745;
+    color: #fff;
+    font-size: 18px;
+    font-weight: bold;
+    width: 120px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    margin-top: 10px;
+}
+
+.continueGameBtn:hover {
+    background-color: #218838;
+    transition: background-color 150ms linear;
+}
+
+.continueGameBtn > div {
+    margin-left: 14px;
+}

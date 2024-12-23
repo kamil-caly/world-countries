@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 import { MapContainer, Marker, Popup, TileLayer, GeoJSON, useMapEvent, CircleMarker, Tooltip, useMap } from 'react-leaflet';
 import countries from '../data/countries.geo.json';
 import SetMapBounds from '../components/SetMapBounds.tsx';
@@ -6,6 +6,8 @@ import CountryTables from '../components/CountryTables.tsx';
 import { CellTableContent, TablesContent } from '../types/types.ts';
 import possibleCountryNames from '../data/PossibleCountryNames.ts';
 import GuessingPanel from '../components/GuessingPanel.tsx';
+import PausePanel from '../components/PausePanel.tsx';
+import { PauseContext, PauseContextType } from '../app_context/PauseContext.tsx';
 
 const initMapZoom: number = 2;
 
@@ -22,6 +24,7 @@ const MainPage: React.FC = () => {
         oceania: []
     });
     const [isGameOver, setIsGameOver] = useState<boolean>(false);
+    const { pauseState, pauseDispatch } = useContext(PauseContext) as { pauseState: PauseContextType, pauseDispatch: any };
 
     useEffect(() => {
         //console.log('tablesContent', tablesContent);
@@ -169,33 +172,36 @@ const MainPage: React.FC = () => {
 
     return (
         <>
-            <GuessingPanel
-                updateTablesContent={updateTablesContent}
-                resetTablesContent={resetTablesContent}
-                setGameOver={setGameOver}
-            />
-            <MapContainer
-                className='mapContainer'
-                ref={mapRef}
-                center={[0, 0]}
-                zoom={initMapZoom} // only initial value
-                minZoom={initMapZoom}
-                maxZoom={6}
-                scrollWheelZoom={true}>
-                <GeoJSON
-                    ref={geoJsonRef}
-                    data={countries}
-                    onEachFeature={onEachFeature}
-                    style={getGeoJsonStyle}
+            <PausePanel />
+            <div style={{ display: pauseState.isPause ? 'none' : 'block' }}>
+                <GuessingPanel
+                    updateTablesContent={updateTablesContent}
+                    resetTablesContent={resetTablesContent}
+                    setGameOver={setGameOver}
                 />
-                <SetMapBounds geoJsonData={countries} />
-            </MapContainer>
-            <div className='mapOptionsDiv'>
-                <button className='homeBtn' onClick={homeBtnClick}>
-                    <img src={require('../assets/home.svg').default} alt='home' />
-                </button>
+                <MapContainer
+                    className='mapContainer'
+                    ref={mapRef}
+                    center={[0, 0]}
+                    zoom={initMapZoom} // only initial value
+                    minZoom={initMapZoom}
+                    maxZoom={6}
+                    scrollWheelZoom={true}>
+                    <GeoJSON
+                        ref={geoJsonRef}
+                        data={countries}
+                        onEachFeature={onEachFeature}
+                        style={getGeoJsonStyle}
+                    />
+                    <SetMapBounds geoJsonData={countries} />
+                </MapContainer>
+                <div className='mapOptionsDiv'>
+                    <button className='homeBtn' onClick={homeBtnClick}>
+                        <img src={require('../assets/home.svg').default} alt='home' />
+                    </button>
+                </div>
+                <CountryTables tablesContent={tablesContent} isGameOver={isGameOver} />
             </div>
-            <CountryTables tablesContent={tablesContent} isGameOver={isGameOver} />
         </>
     );
 }

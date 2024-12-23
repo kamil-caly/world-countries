@@ -1,6 +1,7 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useContext, Dispatch } from 'react';
 import React from 'react';
 import { TablesContent } from '../types/types';
+import { Action, PauseContext, PauseContextType } from '../app_context/PauseContext.tsx';
 
 type CountryTablesProps = {
     updateTablesContent: (country: string) => boolean;
@@ -18,6 +19,7 @@ const GuessingPanel: React.FC = (props: CountryTablesProps) => {
     const intervalId = useRef<number | null>(null);
     const [guessedCountriesStr, setGuessedCountriesStr] = useState<string>(GUESSED_COUNTRIES_STR);
     const [finalScoreStr, setFinalScoreStr] = useState<string>('');
+    const { pauseState, pauseDispatch } = useContext(PauseContext) as { pauseState: PauseContextType, pauseDispatch: any };
 
     useEffect(() => {
         if (isGameStarted) {
@@ -27,9 +29,19 @@ const GuessingPanel: React.FC = (props: CountryTablesProps) => {
 
     }, [isGameStarted]);
 
+    useEffect(() => {
+        if (!isGameStarted) return;
+
+        if (pauseState.isPause) {
+            clearInterval(intervalId.current);
+        } else {
+            const id = setInterval(() => updateTime(), 1000);
+            intervalId.current = id;
+        }
+    }, [pauseState.isPause]);
+
     const setFinalScoreStrState = () => {
         //25/196 = 13%
-        debugger;
         const firstPart = document.getElementsByClassName('guessedCountriesStr')[0].innerHTML.split('o')[0].trim();
         const percentage = Math.round(Number(firstPart.split('/')[0]) / Number(firstPart.split('/')[1]) * 100);
         setFinalScoreStr(`${firstPart} = ${percentage}%`);
@@ -58,6 +70,7 @@ const GuessingPanel: React.FC = (props: CountryTablesProps) => {
 
             const finalMinutes = minutes < 10 ? `0${minutes}` : minutes;
             const finalSeconds = seconds < 10 ? `0${seconds}` : seconds;
+            console.log('Game time: ', `${finalMinutes}:${finalSeconds}`);
             return `${finalMinutes}:${finalSeconds}`;
         })
     }
@@ -78,7 +91,8 @@ const GuessingPanel: React.FC = (props: CountryTablesProps) => {
         props.resetTablesContent();
         props.setGameOver(false);
         setInputValue('');
-        setGuessedCountriesStr(GUESSED_COUNTRIES_STR)
+        setGuessedCountriesStr(GUESSED_COUNTRIES_STR);
+        pauseDispatch({ type: 'reset_state' });
     }
 
     const giveUpClick = () => {
@@ -87,6 +101,15 @@ const GuessingPanel: React.FC = (props: CountryTablesProps) => {
         setFinalScoreStrState();
         setTimeValue('00:00');
     }
+
+    const pauseBtnClick = () => {
+        pauseDispatch({ type: 'decrement_pause' });
+        pauseDispatch({ type: 'switch_pause', pause: true });
+    }
+
+    useEffect(() => {
+        console.log('pauseCnt')
+    }, [pauseState.pauseCnt])
 
     return (
         <div className='guessingPanelDiv'>
@@ -121,7 +144,7 @@ const GuessingPanel: React.FC = (props: CountryTablesProps) => {
                             <button className='giveUpBtn' onClick={giveUpClick}>Poddajesz się?</button>
                         </div>
                         <div className='guessControlSecond'>
-                            <img className='pauseImg' src={require('../assets/pause_circle.svg').default} alt='pauseCircle' />
+                            <img className='pauseImg' style={{ display: pauseState.pauseCnt <= 0 ? 'none' : 'block' }} onClick={pauseBtnClick} src={require('../assets/pause_circle.svg').default} alt='pauseCircle' />
                             <img className='clockImg' src={require('../assets/clock.svg').default} alt='clockCircle' />
                             <img className='questionImg' src={require('../assets/question_circle.svg').default} alt='questionCircle' />
                         </div>
