@@ -19,6 +19,7 @@ const GuessingPanel: React.FC = (props: CountryTablesProps) => {
     const intervalId = useRef<number | null>(null);
     const [guessedCountriesStr, setGuessedCountriesStr] = useState<string>(GUESSED_COUNTRIES_STR);
     const [finalScoreStr, setFinalScoreStr] = useState<string>('');
+    const [timerActive, setTimerActive] = useState<boolean>(true);
     const { pauseState, pauseDispatch } = useContext(PauseContext) as { pauseState: PauseContextType, pauseDispatch: any };
 
     useEffect(() => {
@@ -93,6 +94,7 @@ const GuessingPanel: React.FC = (props: CountryTablesProps) => {
         setInputValue('');
         setGuessedCountriesStr(GUESSED_COUNTRIES_STR);
         pauseDispatch({ type: 'reset_state' });
+        setTimerActive(true);
     }
 
     const giveUpClick = () => {
@@ -107,9 +109,10 @@ const GuessingPanel: React.FC = (props: CountryTablesProps) => {
         pauseDispatch({ type: 'switch_pause', pause: true });
     }
 
-    useEffect(() => {
-        console.log('pauseCnt')
-    }, [pauseState.pauseCnt])
+    const solveWithoutTimer = () => {
+        setTimerActive(false);
+        clearInterval(intervalId.current);
+    }
 
     return (
         <div className='guessingPanelDiv'>
@@ -140,12 +143,12 @@ const GuessingPanel: React.FC = (props: CountryTablesProps) => {
                     :
                     <div className='guessControl'>
                         <div className='guessControlFirst'>
-                            <div className='timer'>{timeValue}</div>
+                            <div className='timer' style={{ fontSize: timerActive ? '40px' : '30px' }}>{timerActive ? timeValue : 'Brak limitu czasowego'}</div>
                             <button className='giveUpBtn' onClick={giveUpClick}>Poddajesz się?</button>
                         </div>
                         <div className='guessControlSecond'>
-                            <img className='pauseImg' style={{ display: pauseState.pauseCnt <= 0 ? 'none' : 'block' }} onClick={pauseBtnClick} src={require('../assets/pause_circle.svg').default} alt='pauseCircle' />
-                            <img className='clockImg' src={require('../assets/clock.svg').default} alt='clockCircle' />
+                            <img className='pauseImg' style={{ display: pauseState.pauseCnt <= 0 || !timerActive ? 'none' : 'block' }} onClick={pauseBtnClick} src={require('../assets/pause_circle.svg').default} alt='pauseCircle' />
+                            <img className='clockImg' style={{ display: timerActive ? 'block' : 'none' }} onClick={solveWithoutTimer} src={require('../assets/clock.svg').default} alt='clockCircle' />
                             <img className='questionImg' src={require('../assets/question_circle.svg').default} alt='questionCircle' />
                         </div>
                         <div className='guessControlThird'>

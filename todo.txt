@@ -10,3 +10,4 @@
 10) Uzupełnianie liczby poprawnie zgadniętych krajów + prawidłowa punktacja. ✔
 11) Obsługa przycisku 'Poddajesz się'. ✔
 12) Obsługa pauzowania gry (możliwe 3 pauzy). ✔
+13) Możliwość rozwiązania quiz'u bez limitu czasowego (przycisk zegara). ✔
