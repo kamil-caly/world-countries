@@ -25,7 +25,7 @@ jobs:
       - name: Install dependencies and build
         run: |
           npm install
-          CI=false npm run build
+          npm run build
 
       # Step 4: Zip the build folder for deployment
       - name: Create deployment package
