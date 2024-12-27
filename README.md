@@ -32,7 +32,7 @@ This application is inspired by the quiz available at [JetPunk: Countries of the
 The application is designed to mimic the original quiz closely but may expand in functionality and style to enhance user experience further.
 
 ## License
-This project is open source and available under the [MIT License](LICENSE).
+This project is open source and available under the [GPL-3.0 License](LICENSE).
 
 ---
 
