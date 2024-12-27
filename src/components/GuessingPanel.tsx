@@ -10,7 +10,7 @@ type CountryTablesProps = {
     setGameOver: (value: boolean) => void;
 }
 
-const QUIZ_TIME: string = '12:00';
+const QUIZ_TIME: string = '12:00'; // test change
 const GUESSED_COUNTRIES_STR: string = '0 / 196 odgadnięto';
 
 const GuessingPanel: React.FC = (props: CountryTablesProps) => {
