@@ -14,4 +14,6 @@
 14) Górny panel z opcjami przypięty na stałe do górnej krawędzi. ✔
 15) Pokazywanie nazwy kraju po najechaniu (gdy kraj zgadnięto oraz gdy koniec gry) ✔
 16) Pokazywanie niezgadniętych krajów poprzez pobrubienie granic i zmianę koloru. ✔
-17) Obsługa przycisku pomocy (question svg).
+17) Obsługa przycisku pomocy (question svg). ✔
+---
+18) Wdrożenie apki na azure z pomocą githubActions (CI/CD).

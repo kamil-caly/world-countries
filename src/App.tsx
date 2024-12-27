@@ -1,13 +1,13 @@
 import React from 'react';
 import './App.css';
 import MainPage from './pages/MainPage.tsx';
-import { PauseProvider } from './app_context/PauseContext.tsx';
+import { AppProvider } from './app_context/AppContext.tsx';
 
 function App() {
     return (
-        <PauseProvider>
+        <AppProvider>
             <MainPage />
-        </PauseProvider>
+        </AppProvider>
     );
 }
 

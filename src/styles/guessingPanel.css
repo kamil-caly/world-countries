@@ -171,3 +171,38 @@
 .repeatImg {
     margin: 2px 6px 0 0;
 }
+
+.helpPanel {
+    background-color: #eeeeee;
+    border-radius: 4px;
+    margin: 5px 0 20px 0;
+    padding: 14px;
+    max-width: 600px;
+}
+
+.helpHeader {
+    display: flex;
+    justify-content: space-between;
+}
+
+.helpDiv {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.closeHelpDiv {
+    font-size: 22px;
+    font-weight: bold;
+    color: #363d44;
+    opacity: .5;
+    cursor: pointer;
+}
+
+.closeHelpDiv:hover {
+    color: #000;
+}
+
+ul {
+    margin: 0;
+    padding-left: 20px;
+}

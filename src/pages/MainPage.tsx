@@ -7,7 +7,7 @@ import { CellTableContent, TablesContent } from '../types/types.ts';
 import possibleCountryNames from '../data/PossibleCountryNames.ts';
 import GuessingPanel from '../components/GuessingPanel.tsx';
 import PausePanel from '../components/PausePanel.tsx';
-import { PauseContext, PauseContextType } from '../app_context/PauseContext.tsx';
+import { AppContext, AppContextType } from '../app_context/AppContext.tsx';
 
 const INIT_MAP_ZOOM: number = 2;
 
@@ -27,7 +27,7 @@ const MainPage: React.FC = () => {
     const [isPageScrolled, setIsPageScrolled] = useState<boolean>(false);
     const [hoverCountry, seHoverCountry] = useState<string>('');
     const [showMissingCountries, setShowMissingCountries] = useState<boolean>(false);
-    const { pauseState, _ } = useContext(PauseContext) as { pauseState: PauseContextType, _: any };
+    const { appState, _ } = useContext(AppContext) as { appState: AppContextType, _: any };
 
     useEffect(() => {
         const handleScroll = () => {
@@ -224,7 +224,7 @@ const MainPage: React.FC = () => {
                     setGameOver={setGameOver}
                 />
             </div>
-            <div style={{ display: pauseState.isPause ? 'none' : 'block' }}>
+            <div style={{ display: appState.isPause ? 'none' : 'block', marginTop: appState.isHelp ? '266px' : '20px' }}>
                 <MapContainer
                     className='mapContainer'
                     ref={mapRef}
