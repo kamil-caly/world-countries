@@ -16,4 +16,4 @@
 16) Pokazywanie niezgadniętych krajów poprzez pobrubienie granic i zmianę koloru. ✔
 17) Obsługa przycisku pomocy (question svg). ✔
 ---
-18) Wdrożenie apki na azure z pomocą githubActions (CI/CD).
+18) Wdrożenie apki na azure z pomocą githubActions (CI/CD). ✔
